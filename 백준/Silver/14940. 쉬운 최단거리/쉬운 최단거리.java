@@ -54,12 +54,12 @@ public class Main {
     }
 
     private static void bfs() {
-        List<Node> queue = new ArrayList<>();
-        queue.add(new Node(startX, startY));
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(new Node(startX, startY));
         visited[startY][startX] = 1;
 
         while (!queue.isEmpty()) {
-            Node node = queue.remove(queue.size() - 1);
+            Node node = queue.poll();
 
             for (int[] direction : directions) {
                 int nextX = node.x + direction[0];
@@ -76,7 +76,7 @@ public class Main {
                 }
 
                 result[nextY][nextX] = result[node.y][node.x] + 1;
-                queue.add(0, new Node(nextX, nextY));
+                queue.offer(new Node(nextX, nextY));
                 visited[nextY][nextX] = 1;
             }
         }
