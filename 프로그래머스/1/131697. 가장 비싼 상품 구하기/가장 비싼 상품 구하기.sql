@@ -1,7 +1,3 @@
-select price max_price
-from (
-    select *
-    from product
-    order by price desc)
-where rownum = 1
+select max(price) max_price
+from product
 ;
