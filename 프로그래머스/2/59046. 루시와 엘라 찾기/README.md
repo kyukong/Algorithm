@@ -1,6 +1,6 @@
 # [level 2] 루시와 엘라 찾기 - 59046 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/59046?language=oracle) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/59046) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2023년 12월 4일 14:34:5
+2024년 03월 05일 01:12:52
 
 ### 문제 설명
 
