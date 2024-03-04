@@ -2,63 +2,42 @@ import java.util.*;
 
 class Solution {
     
-    private int[] area;
-    private Map<Integer, List<Integer>> connections = new HashMap<>();
+    private int n;
+    private int[][] computers;
+    private int result = 0;
+    private int[] visited;
     
     public int solution(int n, int[][] computers) {
+        this.n = n;
+        this.computers = computers;
+        this.visited = new int[n];
         
-        area = new int[n];
-        List<Integer> connection;
         for (int i = 0; i < n; i++) {
-            
-            area[i] = i;
-            
-            connection = new ArrayList<>();
-            for (int j = 0; j < n; j++) {
-                if (i == j || computers[i][j] == 0) {
-                    continue;
-                }
-                connection.add(j);
+            if (visited[i] == 1) {
+                continue;
             }
-            connections.put(i, connection);
+            result++;
+            bfs(i);
         }
         
-        // System.out.println(Arrays.toString(area));
-        // System.out.println(connections);
-        
-        int com, parent1, parent2;
-        for (Map.Entry<Integer, List<Integer>> now : connections.entrySet()) {
-            com = now.getKey();
-            // System.out.println("now : " + com);
-            
-            for (int other : now.getValue()) {
-                parent1 = find(com);
-                parent2 = find(other);
-                
-                if (parent1 == parent2) {
-                    continue;
-                }
-                
-                for (int i = 0; i < n; i++) {
-                    if (area[i] == parent2) {
-                        area[i] = parent1;
-                    }
-                }
-                
-                // area[other] = parent1;
-            }
-            // System.out.println(Arrays.toString(area));
-        }
-        
-        // System.out.println(Arrays.toString(area));
-        
-        return Arrays.stream(area).distinct().toArray().length;
+        return result;
     }
     
-    private int find(int value) {
-        if (value == area[value]) {
-            return value;
+    private void bfs(int start) {
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.offer(start);
+        
+        while (!q.isEmpty()) {
+            int computer = q.poll();
+            int[] network = computers[computer];
+            visited[computer] = 1;
+            
+            for (int i = 0; i < network.length; i++) {
+                if (network[i] == 0 || visited[i] == 1) {
+                    continue;
+                }
+                q.offer(i);
+            }
         }
-        return area[value] = find(area[value]);
     }
 }
