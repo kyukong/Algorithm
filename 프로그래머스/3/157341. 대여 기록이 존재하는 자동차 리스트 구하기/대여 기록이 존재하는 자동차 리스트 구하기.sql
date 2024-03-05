@@ -1,8 +1,10 @@
-select distinct(car.car_id) car_id
-from car_rental_company_rental_history history
-join car_rental_company_car car
-    on car.car_id = history.car_id
-where car.car_type = '세단'
-    and to_char(history.start_date, 'MM') = '10'
-order by car.car_id desc
+SELECT CAR.CAR_ID
+FROM (
+    SELECT DISTINCT(CAR_ID)
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE TO_CHAR(START_DATE, 'MM') = '10') HISTORY
+JOIN CAR_RENTAL_COMPANY_CAR CAR
+    ON CAR.CAR_ID = HISTORY.CAR_ID
+WHERE CAR.CAR_TYPE = '세단'
+ORDER BY CAR.CAR_ID DESC
 ;
