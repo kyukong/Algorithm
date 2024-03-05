@@ -1,13 +1,11 @@
-select users.user_id,
-    users.nickname,
-    board.profit total_sales
-from used_goods_user users
-join (
-    select writer_id, sum(price) profit
-    from used_goods_board
-    where status = 'DONE'
-    group by writer_id) board
-    on users.user_id = board.writer_id
-where board.profit >= 700000
-order by board.profit
+SELECT USER_ID, NICKNAME, TOTAL
+FROM (
+    SELECT WRITER_ID, SUM(PRICE) TOTAL
+    FROM USED_GOODS_BOARD
+    WHERE STATUS = 'DONE'
+    GROUP BY WRITER_ID
+    HAVING SUM(PRICE) >= 700000) BOARD
+JOIN USED_GOODS_USER USERS
+    ON BOARD.WRITER_ID = USERS.USER_ID
+ORDER BY TOTAL
 ;
