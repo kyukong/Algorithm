@@ -1,19 +1,13 @@
-select 
-    extract(month from start_date) month, 
-    car_id, 
-    count(*) records
-from car_rental_company_rental_history
-where 
-    extract(month from start_date)
-        between 8 and 10
-    and car_id in (
-        select car_id
-        from car_rental_company_rental_history
-        where to_char(start_date, 'YYYY-MM')
-            between '2022-08' and '2022-10'
-        group by car_id
-        having count(*) >= 5)
-group by extract(month from start_date), car_id
-having count(*) <> 0
-order by extract(month from start_date), car_id desc
+SELECT EXTRACT(MONTH FROM START_DATE) MONTH, CAR_ID, COUNT(*) RECORDS
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+WHERE EXTRACT(MONTH FROM START_DATE) BETWEEN 8 AND 10
+    AND CAR_ID IN (
+        SELECT CAR_ID
+        FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+        WHERE TO_CHAR(START_DATE, 'YYYY-MM') BETWEEN '2022-08' AND '2022-10'
+        GROUP BY CAR_ID
+        HAVING COUNT(*) >= 5)
+GROUP BY EXTRACT(MONTH FROM START_DATE), CAR_ID
+HAVING COUNT(*) != 0
+ORDER BY MONTH, CAR_ID DESC
 ;
