@@ -1,12 +1,11 @@
-select animal_id, name
-from (
-    select 
-        ins.animal_id animal_id,
-        ins.name name,
-        outs.datetime - ins.datetime + 1 datetime
-    from animal_ins ins
-    join animal_outs outs
-        on ins.animal_id = outs.animal_id
-    order by outs.datetime - ins.datetime + 1 desc)
-where rownum <= 2
+SELECT ANIMAL_ID, NAME
+FROM (
+    SELECT ROWNUM RN, ANIMAL_ID, NAME, PERIOD
+    FROM (
+        SELECT INS.ANIMAL_ID, OUTS.NAME, OUTS.DATETIME - INS.DATETIME PERIOD
+        FROM ANIMAL_INS INS
+        JOIN ANIMAL_OUTS OUTS
+            ON INS.ANIMAL_ID = OUTS.ANIMAL_ID
+        ORDER BY PERIOD DESC))
+WHERE RN <= 2
 ;
