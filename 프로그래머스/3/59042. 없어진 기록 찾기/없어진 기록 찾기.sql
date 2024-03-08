@@ -1,8 +1,7 @@
-select outs.animal_id animal_id,
-    outs.name name
-from animal_ins ins
-right join animal_outs outs
-    on ins.animal_id = outs.animal_id
-where ins.animal_id is null
-order by outs.animal_id
+SELECT OUTS.ANIMAL_ID, OUTS.NAME
+FROM ANIMAL_OUTS OUTS
+LEFT JOIN ANIMAL_INS INS
+    ON OUTS.ANIMAL_ID = INS.ANIMAL_ID
+WHERE INS.DATETIME IS NULL
+ORDER BY OUTS.ANIMAL_ID
 ;
