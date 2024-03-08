@@ -1,8 +1,7 @@
-select ins.animal_id animal_id,
-    ins.name name
-from animal_ins ins
-join animal_outs outs
-    on ins.animal_id = outs.animal_id
-where outs.datetime < ins.datetime
-order by ins.datetime
+SELECT INS.ANIMAL_ID, INS.NAME
+FROM ANIMAL_INS INS
+LEFT JOIN ANIMAL_OUTS OUTS
+    ON INS.ANIMAL_ID = OUTS.ANIMAL_ID
+WHERE OUTS.DATETIME < INS.DATETIME
+ORDER BY INS.DATETIME
 ;
