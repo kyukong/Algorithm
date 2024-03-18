@@ -1,14 +1,15 @@
-select
-    book.author_id author_id,
-    author.author_name author_name,
-    book.category category,
-    sum(sales.sales * book.price) total_sales
-from book
-    join book_sales sales
-    on book.book_id = sales.book_id
-    join author
-    on book.author_id = author.author_id
-where to_char(sales.sales_date, 'YYYY-MM') = '2022-01'
-group by book.author_id, book.category, author.author_name
-order by book.author_id, book.category desc
+SELECT AUTHOR_ID, AUTHOR_NAME, CATEGORY, SUM(SALES) TOTAL_SALES
+FROM (
+    SELECT AUTHOR.AUTHOR_ID, AUTHOR_NAME, CATEGORY, SALES * PRICE SALES
+    FROM BOOK
+    JOIN AUTHOR
+        ON BOOK.AUTHOR_ID = AUTHOR.AUTHOR_ID
+    JOIN (
+        SELECT BOOK_ID, SUM(SALES) SALES
+        FROM BOOK_SALES
+        WHERE TO_CHAR(SALES_DATE, 'YYYY-MM') = '2022-01'
+        GROUP BY BOOK_ID) SALES
+        ON BOOK.BOOK_ID = SALES.BOOK_ID)
+GROUP BY AUTHOR_ID, AUTHOR_NAME, CATEGORY
+ORDER BY AUTHOR_ID, CATEGORY DESC
 ;
