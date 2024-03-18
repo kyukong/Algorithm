@@ -1,13 +1,17 @@
-select flavor
-from (
-    select f.flavor flavor
-    from first_half f
-    join (
-        select 
-            flavor, sum(total_order) total
-        from july
-        group by flavor) j
-    on f.flavor = j.flavor
-    order by f.total_order + j.total desc)
-where rownum <= 3
+SELECT FLAVOR
+FROM (
+    SELECT ROWNUM RN, FLAVOR, TOTAL
+    FROM (
+        SELECT FLAVOR, SUM(TOTAL) TOTAL
+        FROM (
+            SELECT FLAVOR, SUM(TOTAL_ORDER) TOTAL
+            FROM JULY
+            GROUP BY FLAVOR
+            UNION 
+            SELECT FLAVOR, SUM(TOTAL_ORDER) TOTAL
+            FROM FIRST_HALF
+            GROUP BY FLAVOR)
+        GROUP BY FLAVOR
+        ORDER BY TOTAL DESC))
+WHERE RN <= 3
 ;
