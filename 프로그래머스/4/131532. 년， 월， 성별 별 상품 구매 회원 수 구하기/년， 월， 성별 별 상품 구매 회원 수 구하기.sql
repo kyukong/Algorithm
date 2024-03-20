@@ -1,15 +1,13 @@
-select year, month, gender, count(*) users
-from (
-    select 
-        distinct(user_id) user_id,
-        extract(year from sales_date) year,
-        extract(month from sales_date) month
-    from online_sale) onlines
-join (
-    select user_id, gender
-    from user_info) users
-    on users.user_id = onlines.user_id
-where gender is not null
-group by year, month, gender
-order by year, month, gender
+SELECT YEAR, MONTH, GENDER, COUNT(*) USERS
+FROM (
+    SELECT
+        DISTINCT(USER_ID) USER_ID,
+        EXTRACT(YEAR FROM SALES_DATE) YEAR,
+        EXTRACT(MONTH FROM SALES_DATE) MONTH
+    FROM ONLINE_SALE) O
+JOIN USER_INFO U
+    ON O.USER_ID = U.USER_ID
+        AND U.GENDER IS NOT NULL
+GROUP BY YEAR, MONTH, GENDER
+ORDER BY YEAR, MONTH, GENDER
 ;
