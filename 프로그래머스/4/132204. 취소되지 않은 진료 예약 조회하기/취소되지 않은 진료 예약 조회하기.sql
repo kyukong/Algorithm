@@ -1,17 +1,11 @@
-select 
-    a.apnt_no apnt_no,
-    p.pt_name pt_name,
-    p.pt_no pt_no,
-    a.mcdp_cd mcdp_cd,
-    d.dr_name dr_name,
-    apnt_ymd
-from appointment a
-join patient p
-    on p.pt_no = a.pt_no
-join doctor d
-    on a.mddr_id = d.dr_id
-where to_char(a.apnt_ymd, 'YYYY-MM-DD') = '2022-04-13'
-    and a.apnt_cncl_yn = 'N'
-    and d.mcdp_cd = 'CS'
-order by a.apnt_ymd
+SELECT A.APNT_NO, P.PT_NAME, A.PT_NO, A.MCDP_CD, D.DR_NAME, A.APNT_YMD
+FROM APPOINTMENT A
+LEFT JOIN PATIENT P
+    ON A.PT_NO = P.PT_NO
+LEFT JOIN DOCTOR D
+    ON A.MDDR_ID = D.DR_ID
+WHERE TO_CHAR(A.APNT_YMD, 'YYYY-MM-DD') = '2022-04-13'
+    AND A.APNT_CNCL_YN = 'N'
+    AND A.MCDP_CD = 'CS'
+ORDER BY APNT_YMD
 ;
