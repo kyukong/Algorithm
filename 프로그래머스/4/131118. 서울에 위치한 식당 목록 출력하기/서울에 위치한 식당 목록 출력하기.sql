@@ -1,15 +1,10 @@
--- 반올림 시 나머지 자리 0으로 채우기
-select 
-    info.rest_id rest_id,
-    info.rest_name rest_name,
-    info.food_type food_type,
-    info.favorites favorites,
-    info.address address,
-    round(avg(review.review_score), 2) score
-from rest_info info
-join rest_review review
-on info.rest_id = review.rest_id
-where info.address like '서울%'
-group by info.rest_id, info.rest_name, info.food_type, info.favorites, info.address
-order by score desc, favorites desc
+SELECT RI.REST_ID, RI.REST_NAME, RI.FOOD_TYPE, RI.FAVORITES, RI.ADDRESS, RR.SCORE
+FROM REST_INFO RI
+JOIN (
+    SELECT REST_ID, ROUND(AVG(REVIEW_SCORE), 2) SCORE
+    FROM REST_REVIEW
+    GROUP BY REST_ID) RR
+ON RI.REST_ID = RR.REST_ID
+WHERE ADDRESS LIKE '서울%'
+ORDER BY SCORE DESC, FAVORITES DESC
 ;
