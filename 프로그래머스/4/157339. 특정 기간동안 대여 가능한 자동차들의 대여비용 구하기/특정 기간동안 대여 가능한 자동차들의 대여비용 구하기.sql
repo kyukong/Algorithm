@@ -1,18 +1,21 @@
-SELECT CAR.CAR_ID, CAR.CAR_TYPE, 
-    CAR.DAILY_FEE * 30 * ((100 - PLAN.DISCOUNT_RATE) / 100) FEE
-FROM CAR_RENTAL_COMPANY_CAR CAR
-JOIN CAR_RENTAL_COMPANY_DISCOUNT_PLAN PLAN
-    ON CAR.CAR_TYPE = PLAN.CAR_TYPE
-WHERE CAR.CAR_TYPE IN ('세단', 'SUV')
-    AND CAR.CAR_ID NOT IN (
-        SELECT CAR_ID
-        FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
-        WHERE TO_CHAR(START_DATE, 'YYYY-MM-DD') BETWEEN '2022-11-01' AND '2022-11-30'
-            OR TO_CHAR(END_DATE, 'YYYY-MM-DD') BETWEEN '2022-11-01' AND '2022-11-30'
-            OR (TO_CHAR(START_DATE, 'YYYY-MM-DD') <= '2022-11-01'
-                AND TO_CHAR(END_DATE, 'YYYY-MM-DD') >= '2022-11-30'))
-    AND PLAN.DURATION_TYPE = '30일 이상'
-    AND CAR.DAILY_FEE * 30 * ((100 - PLAN.DISCOUNT_RATE) / 100) >= 500000
-    AND CAR.DAILY_FEE * 30 * ((100 - PLAN.DISCOUNT_RATE) / 100) < 2000000
-ORDER BY FEE DESC, CAR.CAR_TYPE, CAR.CAR_ID DESC
+select car.car_id, car.car_type, 
+    daily_fee * 30 * ((100 - discount_rate) / 100) fee
+from CAR_RENTAL_COMPANY_CAR car
+join CAR_RENTAL_COMPANY_DISCOUNT_PLAN discount
+    on car.car_type = discount.car_type
+where car.CAR_TYPE in ('세단', 'SUV')
+    and car.car_id not in (
+        select car_id
+        from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+        where 
+            to_char(end_date, 'YYYY-MM-DD') 
+                between '2022-11-01' and '2022-11-30'
+            or to_char(start_date, 'YYYY-MM-DD') 
+                between '2022-11-01' and '2022-11-30'
+            or (to_char(start_date, 'YYYY-MM-DD') <= '2022-11-01'
+                and to_char(end_date, 'YYYY-MM-DD') >= '2022-11-30'))
+    and duration_type = '30일 이상'
+    and daily_fee * 30 * ((100 - discount_rate) / 100) >= 500000
+    and daily_fee * 30 * ((100 - discount_rate) / 100) < 2000000
+order by fee desc, car.car_type, car.car_id desc
 ;
