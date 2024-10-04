@@ -2,52 +2,59 @@ import java.util.*;
 
 class Solution {
     
+    private int answer = Integer.MAX_VALUE;
+    private int[] visited;
     private String begin;
     private String target;
     private String[] words;
-    private int[] visited;
-    private int result = Integer.MAX_VALUE;
     
     public int solution(String begin, String target, String[] words) {
+        this.visited = new int[words.length];
         this.begin = begin;
         this.target = target;
         this.words = words;
-        this.visited = new int[words.length];
-        
-        if (!Arrays.asList(words).contains(target)) {
-            return 0;
-        }
-        
-        dfs(begin, 0);
-        return result;
-    }
-    
-    private void dfs(String now, int count) {
-        if (now.equals(target)) {
-            result = Math.min(count, result);
-            return;
-        }
         
         for (int i = 0; i < words.length; i++) {
             if (visited[i] == 1) {
                 continue;
             }
-            if (!isNext(now, words[i])) {
+            if (isNext(begin, words[i])) {
+                dfs(i, 1);
+            }
+        }
+        
+        if (answer == Integer.MAX_VALUE) {
+            return 0;
+        }
+        return answer;
+    }
+    
+    private void dfs(int index, int step) {
+        if (words[index].equals(target)) {
+            answer = Math.min(answer, step);
+            return;
+        }
+        
+        visited[index] = 1;
+        
+        for (int i = 0; i < words.length; i++) {
+            if (visited[i] == 1) {
                 continue;
             }
-            visited[i] = 1;
-            dfs(words[i], count + 1);
-            visited[i] = 0;
+            if (isNext(words[index], words[i])) {
+                dfs(i, step + 1);
+            }
         }
     }
     
-    private boolean isNext(String origin, String next) {
-        int count = 0;
-        for (int i = 0; i < origin.length(); i++) {
-            if (origin.charAt(i) != next.charAt(i)) {
-                count++;
+    private boolean isNext(String start, String end) {
+        int diff = 0;
+        for (int i = 0; i < start.length(); i++) {
+            if (start.charAt(i) == end.charAt(i)) {
+                continue;
             }
+            diff++;
         }
-        return count == 1;
+        return diff == 1;
     }
 }
