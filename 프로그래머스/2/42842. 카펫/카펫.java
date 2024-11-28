@@ -1,25 +1,22 @@
-import java.util.*;
+public class Solution {
 
-class Solution {
     public int[] solution(int brown, int yellow) {
-        
-        int middle = (int) Math.ceil(Math.sqrt(yellow));
-        
-        int y, width, height;
+
+        int middle = (int) Math.ceil(Math.sqrt(brown + yellow));
+
+        int y;
         for (int x = middle; x > 0; x--) {
-            if (yellow % x != 0) {
+            if ((brown + yellow) % x != 0) {
                 continue;
             }
-            
-            y = (int) yellow / x;
-            width = Math.max(x, y);
-            height = Math.min(x, y);
-            
-            if ((width + 2) * (height + 2) == brown + yellow) {
-                return new int[] {width + 2, height + 2};
+
+            y = (brown + yellow) / x;
+
+            if ((x - 2) * (y - 2) == yellow) {
+                return new int[] {Math.max(x, y), Math.min(x, y)};
             }
         }
-        
+
         return new int[] {0, 0};
     }
 }
