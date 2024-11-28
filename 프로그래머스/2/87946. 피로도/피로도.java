@@ -1,29 +1,25 @@
-class Solution {
+public class Solution {
 
     private int[][] dungeons;
-    private int[] visited;
     private int result = 0;
-    
+
     public int solution(int k, int[][] dungeons) {
         this.dungeons = dungeons;
-        this.visited = new int[dungeons.length];
 
-        dfs(k, 0);
+        go(k, 0, new int[dungeons.length]);
 
         return result;
     }
 
-    private void dfs(int health, int count) {
+    public void go(int hp, int step, int[] visited) {
         for (int i = 0; i < dungeons.length; i++) {
-            if (visited[i] == 1) {
+            if (visited[i] == 1 || hp < dungeons[i][0]) {
                 continue;
             }
-            if (health >= dungeons[i][0]) {
-                visited[i] = 1;
-                dfs(health - dungeons[i][1], count + 1);
-                visited[i] = 0;
-            }
+            visited[i] = 1;
+            go(hp - dungeons[i][1], step + 1, visited);
+            visited[i] = 0;
         }
-        result = Math.max(result, count);
+        result = Math.max(result, step);
     }
 }
