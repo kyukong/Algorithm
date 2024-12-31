@@ -6,9 +6,9 @@ import java.util.StringTokenizer;
 public class Main {
 
     private static int N;
-    private static long S;
+    private static int S;
     private static int[] array;
-    private static long result = Long.MAX_VALUE;
+    private static int result = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,8 +23,7 @@ public class Main {
             array[i] = Integer.parseInt(st.nextToken());
         }
 
-        int left = 0, right = 0;
-        long sum = array[0];
+        int left = 0, right = 0, sum = array[0];
         while (left <= right) {
             if (sum >= S) {
                 result = Math.min(result, right - left + 1);
@@ -38,7 +37,7 @@ public class Main {
             }
         }
 
-        if (result == Long.MAX_VALUE) {
+        if (result == Integer.MAX_VALUE) {
             System.out.println(0);
         } else {
             System.out.println(result);
